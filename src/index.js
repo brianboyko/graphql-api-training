@@ -55,14 +55,29 @@ const discountMockData = [
 const typeDefs = gql`
   # Comments in GraphQL are defined with the hash (#) symbol.
   # This "Book" type can be used in other type declarations.
+  scalar DateTime 
   type Book {
     title: String
     author: String
   }
+  type Training {
+    title: String
+    id: String
+    objectives: String
+    curriculum: String
+    startDate: DateTime
+  }
+  type Discount {
+    code: String
+    id: String
+    discountPercentage: Int
+  }
   # The "Query" type is the root of all GraphQL queries.
   # (A "Mutation" type will be covered later on.)
   type Query {
-    avocados: [Book]
+    books: [Book]
+    trainings: [Training]
+    discounts: [Discount]
   }
 `;
 
@@ -70,7 +85,9 @@ const typeDefs = gql`
 // schema.  We'll retrieve books from the "books" array above.
 const resolvers = {
   Query: {
-    avocados: () => books,
+    books: () => books,
+    trainings: fetchTrainings,
+    discounts: fetchDiscounts,
   },
 };
 
